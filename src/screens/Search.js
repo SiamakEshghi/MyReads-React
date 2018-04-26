@@ -5,14 +5,25 @@ import Shelf from '../components/Shelf';
 
 
 class Search extends Component {
-    state = { 
-        query: ''
+    constructor(){
+        super();
+        this.state = { 
+            query: ''
+        }
     }
+    componentWillMount(){
+        this.props.searchForBook([]);
+    }
+    
 
     updateQuery = (query) => {
-        this.setState({ query: query.trim()});
-        BooksAPI.search(query)
-        .then((books) => this.props.searchForBook(books))
+        this.setState({ query: query});
+       if(query !== '') {
+            BooksAPI.search(query)
+            .then((books) => this.props.searchForBook(books))
+        } else {
+            this.props.searchForBook([])
+        }
     }
 
     render(){

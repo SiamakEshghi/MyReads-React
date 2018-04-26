@@ -9,7 +9,6 @@ import Home from './screens/Home';
 
 class App extends React.Component {
   state = {
-    showSearchPage: false,
     books: [],
     searchedBooks: []
   }
@@ -25,12 +24,6 @@ class App extends React.Component {
    })
   }
 
-  // closeSearch = () => {
-  //   this.setState({ showSearchPage: false })
-  // }
-  // openSearch = () => {
-  //   this.setState({ showSearchPage: true });
-  // }
   
   updateBook = (item, newShelf) => {
     this.setState((currentState) => (
@@ -41,29 +34,18 @@ class App extends React.Component {
   }
 
   searchForBook = (searches) => {
-    console.log(`search: ${searches.length}`)
-    this.setState((currentState) => 
-        currentState.searchedBooks = searches.length > 0 ? searches : [] 
-                )
+    searches.map((book) => (
+      this.state.books.map((b) => (
+        (b.id === book.id) && (book.shelf = b.shelf)
+      ))   
+    ));
+    this.setState({searchedBooks: (searches && searches.length > 0) ? searches : [] })
   }
 
   render() {
     console.log(this.state.books);
     return (
       <div className="app">
-        {/* {this.state.showSearchPage ? (
-          <Search 
-            books={this.state.searchedBooks}
-            backTapped={this.closeSearch}
-            searchForBook={this.searchForBook}
-            updateBook={this.fetchBooks}
-          />
-        ) : (<Home 
-              searchTapped={this.openSearch} 
-              books={this.state.books}
-              updateBook={this.updateBook}
-              />     
-        )} */}
         <Route exact path='/' render={() => (
           <Home 
           books={this.state.books}
